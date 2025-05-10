@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blockchain E-Voting System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('https://files.123freevectors.com/wp-content/resized/2628-indian-flag-theme-background-for-indian-republic-day-and-independence-day-vector-image.jpg') no-repeat center center fixed;
+  background-size: cover;
+  animation: fadeIn 1s ease-in;
+}
+
+    h1#page_title {
+      text-align: center;
+      color: #2c3e50;
+      padding: 30px 20px 10px;
+      font-size: 28px;
+      animation: slideDown 0.7s ease-out;
+    }
+
+.div-class {
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: scaleIn 0.6s ease-in-out;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .table-heading {
+      background-color: #007BFF;
+      color: white;
+      font-size: 18px;
+    }
+
+    .table-column {
+      background-color: #f9f9f9;
+      transition: background-color 0.3s ease;
+    }
+
+    .table-column:hover {
+      background-color: #e0f0ff;
+    }
+
+    .table_row {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .error-message,
+    .success-message {
+      font-weight: bold;
+      margin: 15px 0;
+      text-align: center;
+      display: none;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    .success-message {
+      color: green;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #3498db;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="page_title">WELCOME TO BLOCKCHAIN BASED E-VOTING</h1>
+
+  <div class="div-class">
+    <table id="table">
+      <tr class="table-heading">
+        <th class="table_row">Organization</th>
+        <th class="table_row">Leader</th>
+        <th class="table_row">Code</th>
+      </tr>
+    </table>
+
+    <form action="/voter/vote" method="post">
+      <label for="userId">Email:</label>
+      <input id="userId" type="email" name="userId" required>
+
+      <label for="password">Password:</label>
+      <input id="password" type="password" name="password" required>
+
+      <label for="orgCode">Organization:</label>
+      <select id="orgCode" name="orgCode" required>
+        <option value="0">NOTA</option>
+      </select>
+
+      <button type="submit">Vote</button>
+    </form>
+
+    <div class="error-message" id="errorMessage">Error occurred</div>
+    <div class="success-message" id="formSuccess">Vote submitted successfully!</div>
+    <div class="loading">
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+
+  <script>
+    function createTableElements(jsonData) {
+      for (let i = 0; i < jsonData["leaderNames"].length; i++) {
+        let tr = document.createElement("tr");
+        tr.className = "table-column";
+
+        let td1 = document.createElement("th");
+        td1.innerText = jsonData["orgNames"][i];
+        td1.className = "table_row";
+        tr.appendChild(td1);
+
+        let td2 = document.createElement("th");
+        td2.innerText = jsonData["leaderNames"][i];
+        td2.className = "table_row";
+        tr.appendChild(td2);
+
+        let td3 = document.createElement("th");
+        td3.innerText = jsonData["orgCodes"][i];
+        td3.className = "table_row";
+        tr.appendChild(td3);
+
+        document.getElementById("table").appendChild(tr);
+      }
+    }
+
+    function createSelectElements(jsonData) {
+      for (let i = 0; i < jsonData["leaderNames"].length; i++) {
+        let option = document.createElement("option");
+        option.value = jsonData["orgCodes"][i];
+        option.innerText = jsonData["leaderNames"][i];
+        document.getElementById("orgCode").appendChild(option);
+      }
+    }
+
+    function getOrgDetail() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "/getOrgDetail");
+      xhr.onload = () => {
+        const jsonData = JSON.parse(xhr.responseText);
+        createTableElements(jsonData);
+        createSelectElements(jsonData);
+      };
+      xhr.send();
+    }
+
+    getOrgDetail();
+  </script>
+</body>
+</html>

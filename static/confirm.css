@@ -1,0 +1,18 @@
+
+
+
+body {
+    
+    align-items: flex-start;
+    text-align: center;
+}
+
+div {
+    text-align: -moz-center;
+    align-items: flex-start;
+    border-radius: 25px;
+    background-color:  #241E2E;
+    padding: 20px;
+    margin-left: 200;
+    margin-right: 200;
+}

@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Confirmation</title>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .div-class {
+            background-color: white;
+            padding: 40px;
+            /* Removed: width: 90%; */
+            display: inline-block; /* Allows width to adjust to content */
+            min-width: 300px;      /* Ensures a minimum width, adjust as needed */
+            max-width: 600px;      /* Increased from 500px to allow more space for description.
+                                      Adjust this value if you want it wider or narrower.
+                                      This is the "not too much" limit. */
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;   /* Text within the box will be centered.
+                                      For very long descriptions, you might prefer 'text-align: left;'
+                                      for better readability. */
+            animation: slideUp 0.7s ease-out;
+        }
+
+        h2 {
+            color: #007BFF;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        h3 {
+            color: #333;
+            margin: 10px 0;
+            font-weight: normal;
+            /* Word-wrap is a default behavior, but explicitly stating it can sometimes help */
+            word-wrap: break-word;
+            overflow-wrap: break-word; /* More modern property for word breaking */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="div-class">
+        <h2>Status: {{ status }}</h2>
+        <h3>Organisation Name: {{ organisation }}</h3>
+        <h3>Description: {{ description }}</h3>
+    </div>
+</body>
+</html>
