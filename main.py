@@ -9,6 +9,13 @@ import user_data
 import utils
 import sys
 import uvicorn
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables
+# Use os.path.join for file paths
+config_dir = os.path.join(os.path.dirname(_file_), "config")
+os.makedirs(config_dir, exist_ok=True)
 
 print("Starting Decentralised Voting System")
 token = input("Create a access token: ")
